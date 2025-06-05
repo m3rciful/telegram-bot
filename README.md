@@ -22,8 +22,8 @@ This project is a boilerplate for building Telegram bots using the [python-teleg
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/telegram_bot_template.git
-   cd telegram_bot_template
+   git clone https://github.com/m3rciful/telegram-bot.git
+   cd telegram-bot
    ```
 
 2. Create and activate a virtual environment:
