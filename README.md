@@ -14,9 +14,10 @@ This project is a boilerplate for building Telegram bots using the [python-teleg
 ## Requirements
 
 - Python 3.11+
-- `python-telegram-bot` v22.1
-- `aiohttp`
-- `python-dotenv`
+- `python-telegram-bot==22.1`
+- `python-dotenv==1.1.0`
+- `colorama==0.4.6`
+- `aiohttp==3.12`
 
 ## Setup
 
@@ -42,14 +43,19 @@ This project is a boilerplate for building Telegram bots using the [python-teleg
    cp .env.example .env
    ```
 
+ 📄 You can use the provided `.env.example` file as a starting point by renaming it to `.env` and updating the values.
+
 5. Start the bot (for development):
    ```bash
    python main.py
    ```
 
+# Or run as a webhook listener (recommended for production)
+python main.py
+
 ## Production
 
-This bot is designed to run via webhook. Use a reverse proxy (e.g., Nginx) and a systemd service for deployment. Make sure to set the required environment variables in `.env`.
+This bot now uses the `Application.run_webhook()` method introduced in PTB 20+ for production. The webhook listener is built into the bot and should be proxied with a reverse proxy (e.g., Nginx). A `systemd` service handles automatic startup and recovery.
 
 ## Project Structure
 
