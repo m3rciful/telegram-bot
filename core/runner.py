@@ -6,11 +6,11 @@ and integrates logging, command registration, and graceful exception handling.
 """
 
 from config import BOT_TOKEN, WEBHOOK_LISTEN, WEBHOOK_PORT, WEBHOOK_URL
+from core.error_handler import handle_error
 from handlers.fallback import unknown_command
 from handlers_loader import register_handlers
 from telegram.ext import Application, ApplicationBuilder, MessageHandler, filters
 from utils.commands import make_set_commands
-from utils.error_handler import handle_error
 from utils.logger import logger
 
 

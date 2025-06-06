@@ -9,6 +9,13 @@ __all__ = ["start_command"]
 # Description used in Telegram's /menu
 __descriptions__ = {"start_command": "Launch the bot"}
 
+# Commands hidden from /help or menu
+__hidden__: list[str] = []
+
+# Admin only commands in this module
+__admin_only__: list[str] = []
+
+
 import logging
 
 from telegram import Update

@@ -15,6 +15,12 @@ __all__ = ["help_command"]
 # Command description for Telegram's /menu
 __descriptions__ = {"help_command": "Show available commands"}
 
+# Commands hidden from /help or menu
+__hidden__: list[str] = []
+
+# Admin only commands
+__admin_only__: list[str] = []
+
 
 async def help_command(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> None:
     """Reply with a list of available commands."""

@@ -8,7 +8,6 @@ import importlib
 import pkgutil
 
 import handlers
-from config import HIDDEN_COMMANDS
 from telegram import BotCommand
 from telegram.ext import Application
 
@@ -22,9 +21,13 @@ def make_set_commands() -> callable:
         for _, module_name, _ in pkgutil.iter_modules(handlers.__path__):
             module = importlib.import_module(f"handlers.{module_name}")
             descriptions = getattr(module, "__descriptions__", {})
+            hidden = set(getattr(module, "__hidden__", []))
+            admin_only = set(getattr(module, "__admin_only__", []))
             for attr in getattr(module, "__all__", []):
                 command = attr.replace("_command", "")
-                if command in HIDDEN_COMMANDS:
+                if (
+                    command in hidden or command in admin_only
+                ):
                     continue
                 description = descriptions.get(attr, command.capitalize())
                 commands.append(BotCommand(command, description))
@@ -38,9 +41,13 @@ def get_commands_descriptions() -> str:
     for _, module_name, _ in pkgutil.iter_modules(handlers.__path__):
         module = importlib.import_module(f"handlers.{module_name}")
         descriptions = getattr(module, "__descriptions__", {})
+        hidden = set(getattr(module, "__hidden__", []))
+        admin_only = set(getattr(module, "__admin_only__", []))
         for attr in getattr(module, "__all__", []):
             command = attr.replace("_command", "")
-            if command in HIDDEN_COMMANDS:
+            if (
+                command in hidden or command in admin_only
+            ):
                 continue
             description = descriptions.get(attr, command.capitalize())
             commands.append((command, description))

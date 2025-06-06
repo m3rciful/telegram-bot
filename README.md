@@ -1,10 +1,12 @@
-# Telegram Bot Template
+A clean, scalable, and production-ready Python template for building Telegram bots using the python-telegram-bot library.  
+Ideal for developers looking to use async handlers, webhook-based updates, and modular design out of the box.
 
 ## Table of Contents
 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Setup](#setup)
+- [Environment Variables](#environment-variables)
 - [Production](#production)
 - [Project Structure](#project-structure)
 - [License](#license)
@@ -54,7 +56,7 @@ This project is a boilerplate for building Telegram bots using the [python-teleg
    cp .env.example .env
    ```
 
- 📄 You can use the provided `.env.example` file as a starting point by renaming it to `.env` and updating the values.
+ You can use the provided `.env.example` file as a starting point by renaming it to `.env` and updating the values.
 
 ### Environment Variables
 
@@ -67,7 +69,6 @@ This project is a boilerplate for building Telegram bots using the [python-teleg
 - `LOG_BOT_FILE`: Filename for general bot logs.
 - `LOG_ERRORS_FILE`: Filename for error logs.
 - `ADMIN_ID`: Telegram user ID with admin rights.
-- `HIDDEN_COMMANDS`: Comma-separated list of commands that shouldn't appear in `/help`.
 
 5. Start the bot (for development):
    ```bash
@@ -106,10 +107,10 @@ WantedBy=multi-user.target
 ```nginx
 server {
     listen 443 ssl;
-    server_name bot.velvari.ee;
+    server_name yourdomain.com;
 
-    ssl_certificate     /etc/letsencrypt/live/bot.velvari.ee/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/bot.velvari.ee/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
 
     location /webhook {
         proxy_pass         http://127.0.0.1:8443/webhook;
@@ -125,11 +126,16 @@ server {
 
 ```
 telegram_bot/
-├── core/              # Main startup and webhook logic
-├── handlers/          # Bot command handlers
-├── utils/             # Utility modules (markdown, logger, etc.)
+├── core/              # Startup logic and webhook runner
+├── handlers/          # Modular command handlers
+├── services/          # External API or service integrations
+├── utils/             # Utilities (env check, logging, markdown)
+├── config.py          # Centralized config from environment
+├── handlers_loader.py # Dynamic handler registration
+├── main.py            # Entrypoint for bot startup
 ├── .env.example       # Example environment file
-└── main.py            # Entrypoint for launching the bot
+├── requirements.txt   # Python dependencies
+└── README.md
 ```
 
 ## License

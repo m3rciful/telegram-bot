@@ -31,8 +31,3 @@ LOG_ERRORS_FILE = os.getenv("LOG_ERRORS_FILE", "errors.log")
 
 # === Admin ===
 ADMIN_ID = int(os.getenv("ADMIN_ID") or 0)  # Telegram user ID with admin access
-
-#== Hidden Commands ===
-HIDDEN_COMMANDS = os.getenv("HIDDEN_COMMANDS", "")
-HIDDEN_COMMANDS = [cmd.strip() for cmd in HIDDEN_COMMANDS.split(",") if cmd.strip()]
-
