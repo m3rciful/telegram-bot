@@ -7,7 +7,7 @@ from config import WEBHOOK_PATH, WEBHOOK_PORT
 from telegram import Update
 from telegram.ext import Application
 
-logger = logging.getLogger("webhook")
+logger = logging.getLogger("bot_bot")
 
 
 async def handle_webhook(request: web.Request) -> web.Response:

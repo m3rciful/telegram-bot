@@ -12,7 +12,9 @@ from typing import ClassVar
 from colorama import Fore, Style
 from colorama import init as colorama_init
 from config import (  # Import log level and log directory from centralized config
+    LOG_BOT_FILE,
     LOG_DIR,
+    LOG_ERRORS_FILE,
     LOG_LEVEL,
 )
 
@@ -61,11 +63,8 @@ def setup_logging() -> None:
     """Set up logging with rotating files, color console output, and level filtering."""
     # Prepare logging directories and paths
     Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
-    bot_log_path = Path(LOG_DIR) / "bot.log"
-    webhook_log_path = Path(LOG_DIR) / "webhook.log"
-    errors_log_path = Path(LOG_DIR) / "errors.log"
-    api_log_path = Path(LOG_DIR) / "api.log"
-    users_log_path = Path(LOG_DIR) / "users.log"
+    bot_log_path = Path(LOG_DIR) / LOG_BOT_FILE
+    errors_log_path = Path(LOG_DIR) / LOG_ERRORS_FILE
 
     # Reduce verbosity of external libraries (e.g., HTTPX)
     logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -78,29 +77,11 @@ def setup_logging() -> None:
     )
     rotating_bot_handler.setLevel(getattr(logging, LOG_LEVEL, logging.INFO))
 
-    webhook_handler = logging.FileHandler(webhook_log_path)
-    webhook_handler.setFormatter(
-        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    )
-    webhook_handler.setLevel(getattr(logging, LOG_LEVEL, logging.INFO))
-
     error_handler = logging.FileHandler(errors_log_path)
     error_handler.setFormatter(
         logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
     error_handler.setLevel(logging.ERROR)
-
-    api_handler = logging.FileHandler(api_log_path)
-    api_handler.setFormatter(
-        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    )
-    api_handler.setLevel(logging.INFO)
-
-    users_handler = logging.FileHandler(users_log_path)
-    users_handler.setFormatter(
-        logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    )
-    users_handler.setLevel(logging.INFO)
 
     console_formatter = ColorFormatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -123,23 +104,9 @@ def setup_logging() -> None:
     )
 
     configure_logger(
-        "webhook",
-        [webhook_handler, rotating_bot_handler, console_handler],
-        getattr(logging, LOG_LEVEL, logging.INFO),
-    )
-
-    configure_logger(
         "errors",
         [error_handler, rotating_bot_handler],
         logging.ERROR,
     )
-
-    configure_logger(
-        "api",
-        [api_handler, rotating_bot_handler],
-        logging.INFO,
-    )
-
-    configure_logger("users", [users_handler, rotating_bot_handler], logging.INFO)
 
 logger = logging.getLogger("bot_bot")
