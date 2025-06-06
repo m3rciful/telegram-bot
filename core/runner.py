@@ -4,18 +4,14 @@ Initializes the Telegram bot application with all handlers, error processing,
 and startup mode (polling or webhook). Provides entry points for bot execution
 and integrates logging, command registration, and graceful exception handling.
 """
-import asyncio
-import socket
 
-from aiohttp import web
-from config import BOT_TOKEN, WEBHOOK_PORT, WEBHOOK_URL
+from config import BOT_TOKEN, WEBHOOK_LISTEN, WEBHOOK_PORT, WEBHOOK_URL
 from handlers.fallback import unknown_command
 from handlers_loader import register_handlers
 from telegram.ext import Application, ApplicationBuilder, MessageHandler, filters
 from utils.commands import make_set_commands
 from utils.error_handler import handle_error
 from utils.logger import logger
-from webhook_server import create_webhook_app
 
 
 def create_application() -> Application:
@@ -29,35 +25,31 @@ def create_application() -> Application:
     return app
 
 
-async def run_webhook() -> None:
-    """Start the bot in webhook mode, binding to the configured port."""
+def start_webhook(app: Application) -> None:
+    """Start webhook server with Application.run_webhook()."""
+    logger.info("🚀 Launching webhook listener")
+    logger.info("🌍 Listening on: http://%s:%s", WEBHOOK_LISTEN, WEBHOOK_PORT)
+    logger.info("🔗 Webhook URL: %s", WEBHOOK_URL)
+
+    app.run_webhook(
+        listen=WEBHOOK_LISTEN,
+        port=WEBHOOK_PORT,
+        webhook_url=WEBHOOK_URL,
+    )
+
+
+def run_webhook() -> None:
+    """Build the bot application and run it in webhook mode."""
     app = create_application()
-
-    def is_port_in_use(port: int) -> bool:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            return s.connect_ex(("127.0.0.1", port)) == 0
-
-    if is_port_in_use(WEBHOOK_PORT):
-        logger.error(
-            "❌ Port %s is already in use. Aborting webhook startup.",
-            WEBHOOK_PORT
-        )
-        return
-
-    web_app = create_webhook_app(app)
-    await app.initialize()
-    await app.bot.set_webhook(WEBHOOK_URL)
-    runner = web.AppRunner(web_app)
-    await runner.setup()
-    site = web.TCPSite(runner, "127.0.0.1", WEBHOOK_PORT)
-    logger.info("🌐 Starting webhook on http://0.0.0.0:%s", WEBHOOK_PORT)
-    await site.start()
-    await asyncio.Event().wait()
+    start_webhook(app)
 
 
-def run_bot() -> None:
+def run_telegram_bot() -> None:
     """Entry point to run the bot with webhook. Handles startup exceptions."""
     try:
-        asyncio.run(run_webhook())
-    except RuntimeError as e:
+        run_webhook()
+    except (OSError, RuntimeError) as e:
         logger.exception("🚨 Bot failed to start: %s", e)
+        import time
+        logger.info("⏳ Waiting 5 seconds before exit to avoid restart loop...")
+        time.sleep(5)

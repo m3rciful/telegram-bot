@@ -20,7 +20,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # === Webhook ===
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Webhook URL
-WEBHOOK_PATH = os.getenv("WEBHOOK_PATH", "/webhook")  # Webhook path endpoint
+WEBHOOK_LISTEN = os.getenv("WEBHOOK_LISTEN", "0.0.0.0")  # noqa: S104
 WEBHOOK_PORT = int(os.getenv("WEBHOOK_PORT", "8443"))  # Webhook port
 
 # === Logging ===

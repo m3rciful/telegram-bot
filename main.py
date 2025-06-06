@@ -1,19 +1,24 @@
-"""Entry point for the Apex Legends Telegram bot.
+"""Main entry point for starting the Telegram Bot.
 
-Initializes logging, checks environment, and starts
-the bot using polling or webhook based on configuration.
+This script sets up logging, checks environment variables,
+and runs the bot using the run_telegram_bot function.
 """
 
 import logging
 
-from core.runner import run_bot
+from core.runner import run_telegram_bot
 from utils.environment import check_environment
 from utils.logger import setup_logging
 
-startup_logger = logging.getLogger("startup")
-startup_logger.info("🚀 Starting mtr bot")
 
-if __name__ == "__main__":
+def main() -> None:
+    """Set up environment and run the Telegram bot."""
     setup_logging()
     check_environment()
-    run_bot()
+    startup_logger = logging.getLogger("startup")
+    startup_logger.info("🚀 Starting Telegram Bot")
+    run_telegram_bot()
+
+
+if __name__ == "__main__":
+    main()
