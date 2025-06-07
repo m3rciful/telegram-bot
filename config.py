@@ -39,6 +39,10 @@ LOG_ERRORS_FILE = os.getenv("LOG_ERRORS_FILE", "errors.log")
 # Telegram user ID with admin access to the bot
 ADMIN_ID = int(os.getenv("ADMIN_ID") or 0)  # Telegram user ID with admin access
 
+# === Run Mode ===
+# Select between 'polling' or 'webhook' startup modes
+RUN_MODE = os.getenv("RUN_MODE", "webhook").lower()
+
 
 # === Validation ===
 # Ensures that required environment variables are defined before the bot starts

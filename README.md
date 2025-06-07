@@ -69,16 +69,20 @@ Ideal for developers looking to use async handlers, webhook-based updates, and m
 - `LOG_BOT_FILE`: Filename for general bot logs.
 - `LOG_ERRORS_FILE`: Filename for error logs.
 - `ADMIN_ID`: Telegram user ID with admin rights.
+- `RUN_MODE`: `polling` for development or `webhook` for production.
 
-5. Start the bot (for development):
+You can also set the `RUN_MODE` environment variable instead of using
+the `--mode` command-line option.
+
+5. Start the bot in polling mode (development):
    ```bash
-   python main.py
+   python main.py --mode polling
    ```
 
 Or run as a webhook listener (recommended for production):
 
 ```bash
-python main.py
+python main.py --mode webhook
 ```
 
 ## Production
