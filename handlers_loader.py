@@ -14,7 +14,7 @@ from utils.logger import logger
 
 
 def register_handlers(app: Application) -> None:
-    """Auto-registers handlers from all modules."""
+    """Auto-register handlers from the ``handlers`` package."""
     for _, module_name, _ in pkgutil.iter_modules(handlers.__path__):
         try:
             module = importlib.import_module(f"handlers.{module_name}")
@@ -32,5 +32,7 @@ def register_handlers(app: Application) -> None:
             pattern = meta.get("pattern")
             app.add_handler(CallbackQueryHandler(callback_func, pattern=pattern))
 
+        # Register all command handlers only once after importing every module to
+        # avoid duplicates from COMMAND_REGISTRY being processed multiple times.
         for meta in COMMAND_REGISTRY:
             app.add_handler(CommandHandler(meta.name, meta.func))
