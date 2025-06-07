@@ -11,12 +11,21 @@ import pkgutil
 
 import handlers
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler
+from utils.logger import logger
 
 
 def register_handlers(app: Application) -> None:
     """Auto-registers handlers from all modules."""
     for _, module_name, _ in pkgutil.iter_modules(handlers.__path__):
-        module = importlib.import_module(f"handlers.{module_name}")
+        try:
+            module = importlib.import_module(f"handlers.{module_name}")
+        except Exception as exc:  # noqa: BLE001
+            logger.exception(
+                "Failed to import handler module %s: %s",
+                module_name,
+                exc,
+            )
+            continue
 
         # Register command handlers
         for attr in getattr(module, "__all__", []):

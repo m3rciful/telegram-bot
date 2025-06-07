@@ -1,6 +1,3 @@
-A clean, scalable, and production-ready Python template for building Telegram bots using the python-telegram-bot library.  
-Ideal for developers looking to use async handlers, webhook-based updates, and modular design out of the box.
-
 ## Table of Contents
 
 - [Features](#features)
@@ -14,6 +11,9 @@ Ideal for developers looking to use async handlers, webhook-based updates, and m
 # Telegram Bot Template
 
 This project is a boilerplate for building Telegram bots using the [python-telegram-bot](https://docs.python-telegram-bot.org/) library.
+
+A clean, scalable, and production-ready Python template for building Telegram bots using the python-telegram-bot library.  
+Ideal for developers looking to use async handlers, webhook-based updates, and modular design out of the box.
 
 ## Features
 

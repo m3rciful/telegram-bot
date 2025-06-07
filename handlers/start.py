@@ -30,12 +30,14 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     """Send greeting message to user on /start command."""
     logger.debug("📥 Received command: %s", update.message.text)
     _ = context
+    # Get user ID
+    user_id = update.effective_user.id if update.effective_user else "unknown"
     # /start command: greet the user
     text = escape_markdown(
-        "Welcome! This is a base template for a Telegram bot.\n"
+        f"Hello! User ID: {user_id}\n\n"
+        "This is a base template for a Telegram bot.\n"
         "Use this bot as a starting point to build your own functionality.\n\n"
         "You can see the list of commands by typing /help.",
         version=2
     )
     await update.message.reply_text(text, parse_mode="MarkdownV2")
-
