@@ -32,7 +32,10 @@ def register_handlers(app: Application) -> None:
             pattern = meta.get("pattern")
             app.add_handler(CallbackQueryHandler(callback_func, pattern=pattern))
 
-        # Register all command handlers only once after importing every module to
-        # avoid duplicates from COMMAND_REGISTRY being processed multiple times.
-        for meta in COMMAND_REGISTRY:
-            app.add_handler(CommandHandler(meta.name, meta.func))
+    # Register all command handlers once after importing modules
+    seen_commands: set[str] = set()
+    for meta in COMMAND_REGISTRY:
+        if meta.name in seen_commands:
+            continue
+        seen_commands.add(meta.name)
+        app.add_handler(CommandHandler(meta.name, meta.func))
