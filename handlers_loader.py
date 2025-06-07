@@ -1,16 +1,15 @@
 """Dynamic handler loader for the Telegram bot.
 
-Iterates through all modules in the handlers package and automatically registers:
-- command handlers listed in `__all__`
-- callback query handlers listed in `__callbacks__`
-
-This enables modular structure without manual handler imports.
+Imports all modules inside the ``handlers`` package so their decorators run and
+register the contained commands. Callback query handlers can still be declared
+via a ``__callbacks__`` dictionary inside each module.
 """
 import importlib
 import pkgutil
 
 import handlers
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler
+from utils.commands import COMMAND_REGISTRY
 from utils.logger import logger
 
 
@@ -27,14 +26,11 @@ def register_handlers(app: Application) -> None:
             )
             continue
 
-        # Register command handlers
-        for attr in getattr(module, "__all__", []):
-            handler_func = getattr(module, attr)
-            command = attr.replace("_command", "")
-            app.add_handler(CommandHandler(command, handler_func))
-
         # Register callback query handlers
         for attr, meta in getattr(module, "__callbacks__", {}).items():
             callback_func = getattr(module, attr)
             pattern = meta.get("pattern")
             app.add_handler(CallbackQueryHandler(callback_func, pattern=pattern))
+
+        for meta in COMMAND_REGISTRY:
+            app.add_handler(CommandHandler(meta.name, meta.func))

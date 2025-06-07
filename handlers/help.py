@@ -7,24 +7,16 @@ respects DEBUG mode to ensure fresh command list during development.
 
 from telegram import Update
 from telegram.ext import ContextTypes
-from utils.commands import get_commands_descriptions
+from utils.commands import command, get_commands_descriptions
 
-# Exported command function for autoloading
-__all__ = ["help_command"]
 
-# Command description for Telegram's /menu
-__descriptions__ = {"help_command": "Show available commands"}
-
-# Commands hidden from /help or menu
-__hidden__: list[str] = []
-
-# Admin only commands
-__admin_only__: list[str] = []
-
+# Marks this function as a visible command with a description used in /help listing
+@command("Show available commands")
 
 async def help_command(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> None:
     """Reply with a list of available commands."""
     text = "Use these commands to control me:\n\n"
+    # Fetches all registered command descriptions, excluding hidden ones
     text += get_commands_descriptions()
 
     if update.message:
