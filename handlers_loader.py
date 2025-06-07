@@ -1,8 +1,10 @@
 """Dynamic handler loader for the Telegram bot.
 
-Imports all modules inside the ``handlers`` package so their decorators run and
-register the contained commands. Callback query handlers can still be declared
-via a ``__callbacks__`` dictionary inside each module.
+This module discovers command handlers by importing every module inside the
+``handlers`` package. Importing a module executes any ``@command`` decorators
+from :mod:`utils.commands`, which appends metadata to ``COMMAND_REGISTRY``.
+Callback query handlers can still be declared via a ``__callbacks__`` dictionary
+inside each module.
 """
 import importlib
 import pkgutil

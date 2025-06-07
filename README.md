@@ -142,6 +142,36 @@ telegram_bot/
 └── README.md
 ```
 
+## Dynamic Handler Registration
+
+`handlers_loader.register_handlers` imports every module in the `handlers`
+package. When a module is imported, any functions decorated with
+`@command` from `utils.commands` are executed and stored in
+`COMMAND_REGISTRY`. After all modules are loaded, the function iterates over
+that registry and adds a `CommandHandler` for each command.
+
+Modules may also define a `__callbacks__` dictionary mapping callback function
+names to a dictionary of metadata (such as a regex `pattern`). These are used to
+register `CallbackQueryHandler`s automatically.
+
+Use the decorator like this:
+
+```python
+from utils.commands import command
+
+@command("Description")
+async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ...
+```
+
+Callback query handlers can be declared inside the same module:
+
+```python
+__callbacks__ = {
+    "button_callback": {"pattern": r"^btn:"}
+}
+```
+
 ## License
 
 MIT License
