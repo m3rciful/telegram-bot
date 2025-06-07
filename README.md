@@ -142,6 +142,14 @@ telegram_bot/
 └── README.md
 ```
 
+## Testing
+
+Run the test suite with [pytest](https://pytest.org/):
+
+```bash
+pytest
+```
+
 ## License
 
 MIT License
