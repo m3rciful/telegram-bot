@@ -28,8 +28,8 @@ def main() -> None:
     startup_logger = logging.getLogger("startup")
     try:
         validate_config()
-    except ValueError as exc:
-        startup_logger.exception("Configuration error: %s", exc)
+    except ValueError:
+        startup_logger.exception("Configuration error")
         sys.exit(1)
     check_environment()
     startup_logger.info("🚀 Starting Telegram Bot in %s mode", args.mode)

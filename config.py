@@ -22,6 +22,10 @@ load_dotenv()
 # Token used to authenticate the bot with Telegram API
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
+# === Run Mode ===
+# Select between 'polling' or 'webhook' startup modes
+RUN_MODE = os.getenv("RUN_MODE", "webhook").lower()
+
 # === Webhook Settings ===
 # Public HTTPS URL Telegram should use to send updates
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")  # Webhook URL
@@ -38,10 +42,6 @@ LOG_ERRORS_FILE = os.getenv("LOG_ERRORS_FILE", "errors.log")
 # === Admin ===
 # Telegram user ID with admin access to the bot
 ADMIN_ID = int(os.getenv("ADMIN_ID") or 0)  # Telegram user ID with admin access
-
-# === Run Mode ===
-# Select between 'polling' or 'webhook' startup modes
-RUN_MODE = os.getenv("RUN_MODE", "webhook").lower()
 
 
 # === Validation ===

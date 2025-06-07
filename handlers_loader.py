@@ -37,5 +37,6 @@ def register_handlers(app: Application) -> None:
     for meta in COMMAND_REGISTRY:
         if meta.name in seen_commands:
             continue
+
         seen_commands.add(meta.name)
         app.add_handler(CommandHandler(meta.name, meta.func))
