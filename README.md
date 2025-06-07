@@ -172,6 +172,15 @@ __callbacks__ = {
 }
 ```
 
+## Testing
+
+Run the test suite with [pytest](https://pytest.org/):
+
+```bash
+pytest
+```
+
+
 ## License
 
 MIT License
