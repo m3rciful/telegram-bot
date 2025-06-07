@@ -1,4 +1,10 @@
-"""Utility decorators for bot handlers."""
+"""
+This module provides utility decorators for use with Telegram bot handlers.
+
+- `admin_required`: A decorator to restrict command access to the configured admin user.
+  It checks if the command issuer's Telegram ID matches the `ADMIN_ID` from the config.
+  If not, it sends an unauthorized access message.
+"""
 
 from collections.abc import Awaitable, Callable
 from functools import wraps
