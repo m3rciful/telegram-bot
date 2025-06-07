@@ -5,7 +5,7 @@ and startup mode (polling or webhook). Provides entry points for bot execution
 and integrates logging, command registration, and graceful exception handling.
 """
 
-from config import BOT_TOKEN, WEBHOOK_LISTEN, WEBHOOK_PORT, WEBHOOK_URL
+from config import BOT_TOKEN, RUN_MODE, WEBHOOK_LISTEN, WEBHOOK_PORT, WEBHOOK_URL
 from core.error_handler import handle_error
 from handlers.fallback import unknown_command
 from handlers_loader import register_handlers
@@ -44,10 +44,25 @@ def run_webhook() -> None:
     start_webhook(app)
 
 
-def run_telegram_bot() -> None:
-    """Entry point to run the bot with webhook. Handles startup exceptions."""
+def start_polling(app: Application) -> None:
+    """Start the bot using Application.run_polling."""
+    logger.info("🚀 Launching polling mode")
+    app.run_polling()
+
+
+def run_polling() -> None:
+    """Build the bot application and run it in polling mode."""
+    app = create_application()
+    start_polling(app)
+
+
+def run_telegram_bot(mode: str = RUN_MODE) -> None:
+    """Entry point to run the bot in polling or webhook mode."""
     try:
-        run_webhook()
+        if mode == "polling":
+            run_polling()
+        else:
+            run_webhook()
     except (OSError, RuntimeError) as e:
         logger.exception("🚨 Bot failed to start: %s", e)
         import time
