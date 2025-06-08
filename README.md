@@ -81,11 +81,11 @@ Use the optional `--diagnostics` flag to log environment information at startup.
    python main.py --mode polling
    ```
 
-Or run as a webhook listener (recommended for production):
+   Or run as a webhook listener (recommended for production):
 
-```bash
-python main.py --mode webhook
-```
+   ```bash
+   python main.py --mode webhook
+   ```
 
 Add `--diagnostics` to either command to include startup environment logs.
 

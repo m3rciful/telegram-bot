@@ -3,9 +3,10 @@ import logging
 import sys
 
 from config import RUN_MODE, validate_config
-from core.runner import run_telegram_bot
 from utils.environment import check_environment
 from utils.logger import setup_logging
+
+from core.runner import run_telegram_bot
 
 
 def create_parser() -> argparse.ArgumentParser:
