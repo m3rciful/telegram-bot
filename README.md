@@ -12,17 +12,21 @@
 
 This project is a boilerplate for building Telegram bots using the [python-telegram-bot](https://docs.python-telegram-bot.org/) library.
 
-A clean, scalable, and production-ready Python template for building Telegram bots using the python-telegram-bot library.  
-Ideal for developers looking to use async handlers, webhook-based updates, and modular design out of the box.
+A clean, scalable, and production-ready Python template for building Telegram bots.
+Ideal for developers looking to use asynchronous handlers, either polling or webhook updates, and a modular design out of the box.
 
 ## Features
 
-- Asynchronous support with `asyncio`
-- Webhook-based updates (no polling)
-- Modular handler structure
-- Logging system with rotation
-- Environment-based configuration
+- Fully asynchronous with `asyncio`
+- Supports both polling and webhook modes
+- Modular handler structure with automatic discovery
+- Command registration via the `@command` decorator
+- Access control with the `@admin_required` decorator
+- Global error handler and optional diagnostics output
+- Colored logging with rotating files
 - MarkdownV2-safe output formatting
+- Configuration via `.env`
+- Basic tests for command registration
 
 ## Requirements
 
