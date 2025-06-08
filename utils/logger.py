@@ -4,6 +4,7 @@ Initializes loggers with rotating file handlers, separate log files for componen
 and colored console output using Colorama. Integrates multiple log levels and
 structured formatting with support for user tagging in log messages.
 """
+
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -11,6 +12,7 @@ from typing import ClassVar
 
 from colorama import Fore, Style
 from colorama import init as colorama_init
+
 from config import (  # Import log level and log directory from centralized config
     LOG_BOT_FILE,
     LOG_DIR,
@@ -19,6 +21,7 @@ from config import (  # Import log level and log directory from centralized conf
 )
 
 colorama_init()
+
 
 # ColorFormatter for pretty colored logs in console
 class ColorFormatter(logging.Formatter):
@@ -29,7 +32,7 @@ class ColorFormatter(logging.Formatter):
         logging.INFO: Fore.GREEN,
         logging.WARNING: Fore.YELLOW,
         logging.ERROR: Fore.RED,
-        logging.CRITICAL: Fore.MAGENTA
+        logging.CRITICAL: Fore.MAGENTA,
     }
 
     def format(self, record: logging.LogRecord) -> str:
@@ -51,6 +54,7 @@ class ColorFormatter(logging.Formatter):
             message += f" | 👤 {user_display}"
         return f"{color}{message}{reset}"
 
+
 def configure_logger(name: str, handlers: list[logging.Handler], level: int) -> None:
     """Configure a logger with the given handlers and log level."""
     logger = logging.getLogger(name)
@@ -58,6 +62,7 @@ def configure_logger(name: str, handlers: list[logging.Handler], level: int) -> 
         logger.setLevel(level)
     for handler in handlers:
         logger.addHandler(handler)
+
 
 def setup_logging() -> None:
     """Set up logging with rotating files, color console output, and level filtering."""
@@ -94,13 +99,13 @@ def setup_logging() -> None:
     configure_logger(
         "bot_bot",
         [rotating_bot_handler, console_handler],
-        getattr(logging, LOG_LEVEL, logging.DEBUG)
+        getattr(logging, LOG_LEVEL, logging.DEBUG),
     )
 
     configure_logger(
         "startup",
         [console_handler, rotating_bot_handler],
-        getattr(logging, LOG_LEVEL, logging.INFO)
+        getattr(logging, LOG_LEVEL, logging.INFO),
     )
 
     configure_logger(
@@ -108,5 +113,6 @@ def setup_logging() -> None:
         [error_handler, rotating_bot_handler],
         logging.ERROR,
     )
+
 
 logger = logging.getLogger("bot_bot")

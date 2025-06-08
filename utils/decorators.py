@@ -10,12 +10,15 @@ from collections.abc import Awaitable, Callable
 from functools import wraps
 from typing import Any
 
-from config import ADMIN_ID
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from config import ADMIN_ID
 
-def admin_required(func: Callable[..., Awaitable[Any]]) -> Callable[..., Awaitable[Any]]:  # noqa: E501
+
+def admin_required(
+    func: Callable[..., Awaitable[Any]],
+) -> Callable[..., Awaitable[Any]]:  # noqa: E501
     """Allow execution only for the configured ADMIN_ID."""
 
     @wraps(func)

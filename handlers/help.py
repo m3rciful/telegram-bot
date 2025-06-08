@@ -7,12 +7,12 @@ respects DEBUG mode to ensure fresh command list during development.
 
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from utils.commands import command, get_commands_descriptions
 
 
 # Marks this function as a visible command with a description used in /help listing
 @command("Show available commands")
-
 async def help_command(update: Update, _context: ContextTypes.DEFAULT_TYPE) -> None:
     """Reply with a list of available commands."""
     text = "Use these commands to control me:\n\n"

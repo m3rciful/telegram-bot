@@ -11,6 +11,7 @@ Sections:
 
 Refer to `.env.example` for variable definitions.
 """
+
 import os
 
 from dotenv import load_dotenv
