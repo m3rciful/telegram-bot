@@ -5,8 +5,8 @@ from __future__ import annotations
 import asyncio
 from typing import TYPE_CHECKING
 
-from telegram import BotCommand
 from src.utils import commands
+from telegram import BotCommand
 
 if TYPE_CHECKING:
     import pytest

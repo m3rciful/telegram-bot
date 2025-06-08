@@ -7,6 +7,7 @@ respects DEBUG mode to ensure fresh command list during development.
 
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from src.utils.commands import command, get_commands_descriptions
 
 

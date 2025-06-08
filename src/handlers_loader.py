@@ -10,8 +10,9 @@ inside each module.
 import importlib
 import pkgutil
 
-from src import handlers
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler
+
+from src import handlers
 from src.utils.commands import COMMAND_REGISTRY
 from src.utils.logger import logger
 
@@ -20,7 +21,7 @@ def register_handlers(app: Application) -> None:
     """Auto-register handlers from the ``handlers`` package."""
     for _, module_name, _ in pkgutil.iter_modules(handlers.__path__):
         try:
-            module = importlib.import_module(f"handlers.{module_name}")
+            module = importlib.import_module(f"{handlers.__name__}.{module_name}")
         except Exception as exc:  # noqa: BLE001
             logger.exception(
                 "Failed to import handler module %s: %s",

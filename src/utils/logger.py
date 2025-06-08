@@ -12,6 +12,7 @@ from typing import ClassVar
 
 from colorama import Fore, Style
 from colorama import init as colorama_init
+
 from src.config import (  # Import log level and log directory from centralized config
     LOG_BOT_FILE,
     LOG_DIR,

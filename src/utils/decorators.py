@@ -10,9 +10,10 @@ from collections.abc import Awaitable, Callable
 from functools import wraps
 from typing import Any
 
-from src.config import ADMIN_ID
 from telegram import Update
 from telegram.ext import ContextTypes
+
+from src.config import ADMIN_ID
 
 
 def admin_required(
