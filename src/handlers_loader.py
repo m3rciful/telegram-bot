@@ -10,10 +10,10 @@ inside each module.
 import importlib
 import pkgutil
 
-import handlers
+from src import handlers
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler
-from utils.commands import COMMAND_REGISTRY
-from utils.logger import logger
+from src.utils.commands import COMMAND_REGISTRY
+from src.utils.logger import logger
 
 
 def register_handlers(app: Application) -> None:

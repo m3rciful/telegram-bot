@@ -6,7 +6,7 @@ import asyncio
 from typing import TYPE_CHECKING
 
 from telegram import BotCommand
-from utils import commands
+from src.utils import commands
 
 if TYPE_CHECKING:
     import pytest

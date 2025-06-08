@@ -7,8 +7,8 @@ import logging
 
 from telegram import Update
 from telegram.ext import ContextTypes
-from utils.commands import command
-from utils.markdown import escape_markdown
+from src.utils.commands import command
+from src.utils.markdown import escape_markdown
 
 logger = logging.getLogger("bot_bot")
 
