@@ -41,7 +41,7 @@ def command(
 
     def decorator(
         func: Callable[..., Awaitable[None]],
-    ) -> Callable[..., Awaitable[None]]:  # noqa: E501
+    ) -> Callable[..., Awaitable[None]]:
         command_name = func.__name__.replace("_command", "")
         COMMAND_REGISTRY.append(
             CommandMeta(

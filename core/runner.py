@@ -5,14 +5,14 @@ and startup mode (polling or webhook). Provides entry points for bot execution
 and integrates logging, command registration, and graceful exception handling.
 """
 
-from telegram.ext import Application, ApplicationBuilder, MessageHandler, filters
-
 from config import BOT_TOKEN, RUN_MODE, WEBHOOK_LISTEN, WEBHOOK_PORT, WEBHOOK_URL
-from core.error_handler import handle_error
 from handlers.fallback import unknown_command
 from handlers_loader import register_handlers
+from telegram.ext import Application, ApplicationBuilder, MessageHandler, filters
 from utils.commands import make_set_commands
 from utils.logger import logger
+
+from core.error_handler import handle_error
 
 
 def create_application() -> Application:

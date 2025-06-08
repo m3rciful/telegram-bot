@@ -10,9 +10,8 @@ inside each module.
 import importlib
 import pkgutil
 
-from telegram.ext import Application, CallbackQueryHandler, CommandHandler
-
 import handlers
+from telegram.ext import Application, CallbackQueryHandler, CommandHandler
 from utils.commands import COMMAND_REGISTRY
 from utils.logger import logger
 

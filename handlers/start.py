@@ -7,7 +7,6 @@ import logging
 
 from telegram import Update
 from telegram.ext import ContextTypes
-
 from utils.commands import command
 from utils.markdown import escape_markdown
 
