@@ -20,3 +20,4 @@ def check_environment() -> None:
     startup_logger.info("🖥 Platform: %s %s", platform.system(), platform.release())
     startup_logger.info("🌐 aiohttp version: %s", aiohttp.__version__)
     startup_logger.info("🤖 python-telegram-bot version: %s", telegram.__version__)
+
