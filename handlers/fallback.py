@@ -8,6 +8,7 @@ import logging
 
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from utils.commands import command
 
 logger = logging.getLogger("bot_bot")
@@ -17,8 +18,10 @@ logger = logging.getLogger("bot_bot")
 # Hidden commands are not shown in the /help listing.
 @command(hidden=True)
 
- # Handles any unknown slash commands like /wrong, logs them, and replies with a hint.
-async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:  # noqa: ARG001
+# Handles any unknown slash commands like /wrong, logs them, and replies with a hint.
+async def unknown_command(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:  # noqa: ARG001
     """Handle unknown slash commands and guide user to /help."""
     if update.message and update.message.text.startswith("/"):
         logger.warning("Unknown command received: %s", update.message.text)

@@ -6,11 +6,13 @@ from :mod:`utils.commands`, which appends metadata to ``COMMAND_REGISTRY``.
 Callback query handlers can still be declared via a ``__callbacks__`` dictionary
 inside each module.
 """
+
 import importlib
 import pkgutil
 
-import handlers
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler
+
+import handlers
 from utils.commands import COMMAND_REGISTRY
 from utils.logger import logger
 

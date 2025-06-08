@@ -4,6 +4,7 @@ Provides a version-aware function to escape special Markdown characters
 required by Telegram's MarkdownV1 and MarkdownV2 formats. Supports
 entity-type specific escaping for safer formatting in messages.
 """
+
 import logging
 import re
 
@@ -11,6 +12,7 @@ TELEGRAM_MD_V1 = 1
 TELEGRAM_MD_V2 = 2
 
 logger = logging.getLogger("bot_bot")
+
 
 def escape_markdown(text: str, version: int = 2, entity_type: str | None = None) -> str:
     """Escape Telegram Markdown special characters for MarkdownV1 or MarkdownV2.

@@ -7,14 +7,15 @@ import logging
 
 from telegram import Update
 from telegram.ext import ContextTypes
+
 from utils.commands import command
 from utils.markdown import escape_markdown
 
 logger = logging.getLogger("bot_bot")
 
+
 # Register the /start command with a description shown in /help
 @command("Launch the bot")
-
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send greeting message to user on /start command."""
     # Log the received command for debugging
@@ -28,6 +29,6 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         "This is a base template for a Telegram bot.\n"
         "Use this bot as a starting point to build your own functionality.\n\n"
         "You can see the list of commands by typing /help.",
-        version=2
+        version=2,
     )
     await update.message.reply_text(text, parse_mode="MarkdownV2")

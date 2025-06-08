@@ -1,22 +1,30 @@
+"""Tests for command management utilities."""
+
+from __future__ import annotations
+
 import asyncio
 
 import pytest
-
 from telegram import BotCommand
 
 import utils.commands as commands
 
 
 class DummyBot:
-    def __init__(self):
-        self.received = None
+    """Minimal bot stub used for testing."""
 
-    async def set_my_commands(self, commands_list):
+    def __init__(self) -> None:
+        self.received: list[BotCommand] | None = None
+
+    async def set_my_commands(self, commands_list: list[BotCommand]) -> None:
+        """Record the commands that would be set."""
         self.received = commands_list
 
 
 class DummyApp:
-    def __init__(self):
+    """Application stub exposing only the bot property."""
+
+    def __init__(self) -> None:
         self.bot = DummyBot()
 
 

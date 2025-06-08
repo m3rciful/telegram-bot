@@ -3,6 +3,7 @@
 Provides helper functions and helpers for registering command handlers and
 generating their descriptions for the bot's command list.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -38,7 +39,9 @@ def command(
 ) -> Callable[[Callable[..., Awaitable[None]]], Callable[..., Awaitable[None]]]:
     """Register a command handler with optional metadata."""
 
-    def decorator(func: Callable[..., Awaitable[None]]) -> Callable[..., Awaitable[None]]:  # noqa: E501
+    def decorator(
+        func: Callable[..., Awaitable[None]],
+    ) -> Callable[..., Awaitable[None]]:  # noqa: E501
         command_name = func.__name__.replace("_command", "")
         COMMAND_REGISTRY.append(
             CommandMeta(
@@ -67,6 +70,7 @@ def make_set_commands() -> Callable[[Application], Awaitable[None]]:
         await application.bot.set_my_commands(commands)
 
     return set_commands
+
 
 def get_commands_descriptions() -> str:
     """Return a formatted string of all visible bot commands and their descriptions."""
