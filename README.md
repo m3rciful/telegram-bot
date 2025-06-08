@@ -133,17 +133,16 @@ server {
 ## Project Structure
 
 ```
-telegram_bot/
+src/
 ├── core/              # Startup logic and webhook runner
 ├── handlers/          # Modular command handlers
-├── services/          # External API or service integrations
 ├── utils/             # Utilities (env check, logging, markdown)
 ├── config.py          # Centralized config from environment
-├── handlers_loader.py # Dynamic handler registration
-├── main.py            # Entrypoint for bot startup
-├── .env.example       # Example environment file
-├── requirements.txt   # Python dependencies
-└── README.md
+└── handlers_loader.py # Dynamic handler registration
+main.py                # Entrypoint for bot startup
+.env.example           # Example environment file
+requirements.txt       # Python dependencies
+README.md
 ```
 
 ## Dynamic Handler Registration

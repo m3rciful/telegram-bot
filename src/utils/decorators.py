@@ -10,7 +10,7 @@ from collections.abc import Awaitable, Callable
 from functools import wraps
 from typing import Any
 
-from config import ADMIN_ID
+from src.config import ADMIN_ID
 from telegram import Update
 from telegram.ext import ContextTypes
 

@@ -2,8 +2,8 @@
 
 from telegram import Update
 from telegram.ext import ContextTypes
-from utils.commands import command
-from utils.decorators import admin_required
+from src.utils.commands import command
+from src.utils.decorators import admin_required
 
 
 # Registers an admin-only command with description shown in /help
