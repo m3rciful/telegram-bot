@@ -27,6 +27,7 @@ Ideal for developers looking to use asynchronous handlers, either polling or web
 - MarkdownV2-safe output formatting
 - Configuration via `.env`
 - Basic tests for command registration
+- Command aliases supported via `aliases` parameter in `@command` decorator
 
 ## Requirements
 
@@ -168,6 +169,14 @@ from utils.commands import command
 
 @command("Description")
 async def my_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    ...
+```
+
+You can also register command aliases:
+
+```python
+@command("Main command", aliases=["alias1", "alias2"])
+async def some_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ...
 ```
 

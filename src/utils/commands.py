@@ -6,7 +6,7 @@ generating their descriptions for the bot's command list.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from telegram import BotCommand
@@ -26,6 +26,7 @@ class CommandMeta:
     description: str
     hidden: bool = False
     admin_only: bool = False
+    aliases: list[str] = field(default_factory=list)
 
 
 COMMAND_REGISTRY: list[CommandMeta] = []
@@ -36,6 +37,7 @@ def command(
     *,
     hidden: bool = False,
     admin_only: bool = False,
+    aliases: list[str] | None = None,
 ) -> Callable[[Callable[..., Awaitable[None]]], Callable[..., Awaitable[None]]]:
     """Register a command handler with optional metadata."""
 
@@ -50,6 +52,7 @@ def command(
                 description=description or command_name.capitalize(),
                 hidden=hidden,
                 admin_only=admin_only,
+                aliases=aliases or [],
             )
         )
         return func

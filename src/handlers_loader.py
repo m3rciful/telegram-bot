@@ -44,3 +44,7 @@ def register_handlers(app: Application) -> None:
 
         seen_commands.add(meta.name)
         app.add_handler(CommandHandler(meta.name, meta.func))
+        for alias in getattr(meta, "aliases", []):
+            if alias not in seen_commands:
+                app.add_handler(CommandHandler(alias, meta.func))
+                seen_commands.add(alias)
