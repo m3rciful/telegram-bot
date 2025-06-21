@@ -13,12 +13,7 @@ from typing import ClassVar
 from colorama import Fore, Style
 from colorama import init as colorama_init
 
-from src.config import (  # Import log level and log directory from centralized config
-    LOG_BOT_FILE,
-    LOG_DIR,
-    LOG_ERRORS_FILE,
-    LOG_LEVEL,
-)
+from src.config import settings
 
 colorama_init()
 
@@ -67,9 +62,9 @@ def configure_logger(name: str, handlers: list[logging.Handler], level: int) -> 
 def setup_logging() -> None:
     """Set up logging with rotating files, color console output, and level filtering."""
     # Prepare logging directories and paths
-    Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
-    bot_log_path = Path(LOG_DIR) / LOG_BOT_FILE
-    errors_log_path = Path(LOG_DIR) / LOG_ERRORS_FILE
+    Path(settings.LOG_DIR).mkdir(parents=True, exist_ok=True)
+    bot_log_path = Path(settings.LOG_DIR) / settings.LOG_BOT_FILE
+    errors_log_path = Path(settings.LOG_DIR) / settings.LOG_ERRORS_FILE
 
     # Reduce verbosity of external libraries (e.g., HTTPX)
     logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -80,7 +75,7 @@ def setup_logging() -> None:
     rotating_bot_handler.setFormatter(
         logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
-    rotating_bot_handler.setLevel(getattr(logging, LOG_LEVEL, logging.INFO))
+    rotating_bot_handler.setLevel(getattr(logging, settings.LOG_LEVEL, logging.INFO))
 
     error_handler = logging.FileHandler(errors_log_path)
     error_handler.setFormatter(
@@ -94,18 +89,18 @@ def setup_logging() -> None:
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(console_formatter)
-    console_handler.setLevel(getattr(logging, LOG_LEVEL, logging.INFO))
+    console_handler.setLevel(getattr(logging, settings.LOG_LEVEL, logging.INFO))
 
     configure_logger(
         "bot_bot",
         [rotating_bot_handler, console_handler],
-        getattr(logging, LOG_LEVEL, logging.DEBUG),
+        getattr(logging, settings.LOG_LEVEL, logging.DEBUG),
     )
 
     configure_logger(
         "startup",
         [console_handler, rotating_bot_handler],
-        getattr(logging, LOG_LEVEL, logging.INFO),
+        getattr(logging, settings.LOG_LEVEL, logging.INFO),
     )
 
     configure_logger(

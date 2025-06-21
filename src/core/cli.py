@@ -2,7 +2,9 @@ import argparse
 import logging
 import sys
 
-from src.config import RUN_MODE, validate_config
+from pydantic import ValidationError
+
+from src.config import settings
 from src.core.runner import run_telegram_bot
 from src.utils.environment import check_environment
 from src.utils.logger import setup_logging
@@ -14,7 +16,7 @@ def create_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--mode",
         choices=["polling", "webhook"],
-        default=RUN_MODE,
+        default=settings.RUN_MODE,
         help="Run mode: polling or webhook",
     )
     parser.add_argument(
@@ -32,12 +34,11 @@ def cli(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
     startup_logger = logging.getLogger("startup")
     try:
-        validate_config()
-    except ValueError:
-        startup_logger.exception("Configuration error")
+        _ = settings  # triggers validation by Pydantic BaseSettings
+    except (ValueError, ValidationError):
+        startup_logger.exception("Configuration validation error")
         sys.exit(1)
     if args.diagnostics:
         check_environment()
     startup_logger.info("🚀 Starting Telegram Bot in %s mode", args.mode)
     run_telegram_bot(args.mode)
-

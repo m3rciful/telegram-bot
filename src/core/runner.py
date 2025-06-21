@@ -5,15 +5,11 @@ and startup mode (polling or webhook). Provides entry points for bot execution
 and integrates logging, command registration, and graceful exception handling.
 """
 
+import asyncio
+
 from telegram.ext import Application, ApplicationBuilder, MessageHandler, filters
 
-from src.config import (
-    BOT_TOKEN,
-    RUN_MODE,
-    WEBHOOK_LISTEN,
-    WEBHOOK_PORT,
-    WEBHOOK_URL,
-)
+from src.config import settings
 from src.core.error_handler import handle_error
 from src.handlers.fallback import unknown_command
 from src.handlers_loader import register_handlers
@@ -21,13 +17,19 @@ from src.utils.commands import make_set_commands
 from src.utils.logger import logger
 
 
+async def _shutdown_app() -> None:
+    """Provide graceful shutdown logic if needed."""
+    await asyncio.sleep(0)  # No-op for now
+
+
 def create_application() -> Application:
     """Build and configure the Telegram bot application."""
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app = ApplicationBuilder().token(settings.BOT_TOKEN).build()
     logger.debug("✅ Application built")
     register_handlers(app)
     app.add_handler(MessageHandler(filters.COMMAND, unknown_command))
     app.post_init = make_set_commands()
+    app.post_shutdown = _shutdown_app
     app.add_error_handler(handle_error)
     return app
 
@@ -35,13 +37,17 @@ def create_application() -> Application:
 def start_webhook(app: Application) -> None:
     """Start webhook server with Application.run_webhook()."""
     logger.info("🚀 Launching webhook listener")
-    logger.info("🌍 Listening on: http://%s:%s", WEBHOOK_LISTEN, WEBHOOK_PORT)
-    logger.info("🔗 Webhook URL: %s", WEBHOOK_URL)
+    logger.info(
+        "🌍 Listening on: http://%s:%s",
+        settings.WEBHOOK_LISTEN,
+        settings.WEBHOOK_PORT,
+    )
+    logger.info("🔗 Webhook URL: %s", settings.WEBHOOK_URL)
 
     app.run_webhook(
-        listen=WEBHOOK_LISTEN,
-        port=WEBHOOK_PORT,
-        webhook_url=WEBHOOK_URL,
+        listen=settings.WEBHOOK_LISTEN,
+        port=settings.WEBHOOK_PORT,
+        webhook_url=settings.WEBHOOK_URL,
     )
 
 
@@ -63,7 +69,7 @@ def run_polling() -> None:
     start_polling(app)
 
 
-def run_telegram_bot(mode: str = RUN_MODE) -> None:
+def run_telegram_bot(mode: str = settings.RUN_MODE) -> None:
     """Entry point to run the bot in polling or webhook mode."""
     try:
         if mode == "polling":

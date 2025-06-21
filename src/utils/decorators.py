@@ -13,7 +13,7 @@ from typing import Any
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from src.config import ADMIN_ID
+from src.config import settings
 
 
 def admin_required(
@@ -28,7 +28,7 @@ def admin_required(
         *args: object,
         **kwargs: dict[str, object]
     ) -> None | bool:
-        if update.effective_user and update.effective_user.id == ADMIN_ID:
+        if update.effective_user and update.effective_user.id == settings.ADMIN_ID:
             return await func(update, context, *args, **kwargs)
         if update.message:
             await update.message.reply_text(
