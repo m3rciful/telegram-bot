@@ -8,7 +8,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from telegram.helpers import escape_markdown
 
-from src.utils.commands import command
+from bot.utils.commands import command
 
 
 # Marks this function as a visible command with a description used in /help listing

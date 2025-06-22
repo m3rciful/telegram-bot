@@ -13,7 +13,7 @@ from typing import Any
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from src.config import settings
+from bot.config import settings
 
 
 def admin_required(

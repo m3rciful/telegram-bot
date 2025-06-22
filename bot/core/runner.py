@@ -9,12 +9,14 @@ import asyncio
 
 from telegram.ext import Application, ApplicationBuilder, MessageHandler, filters
 
-from src.config import settings
-from src.core.error_handler import handle_error
-from src.handlers.fallback import unknown_command
-from src.handlers_loader import register_handlers
-from src.utils.commands import make_set_commands
-from src.utils.logger import logger
+from bot.config import settings
+from bot.core.error_handler import handle_error
+from bot.handlers.fallback import unknown_command
+from bot.handlers_loader import register_handlers
+from bot.utils.commands import make_set_commands
+from bot.utils.logger import get_logger
+
+logger = get_logger()
 
 
 async def _shutdown_app() -> None:
@@ -36,13 +38,13 @@ def create_application() -> Application:
 
 def start_webhook(app: Application) -> None:
     """Start webhook server with Application.run_webhook()."""
-    logger.info("🚀 Launching webhook listener")
-    logger.info(
+    logger.debug("🚀 Launching webhook listener")
+    logger.debug(
         "🌍 Listening on: http://%s:%s",
         settings.WEBHOOK_LISTEN,
         settings.WEBHOOK_PORT,
     )
-    logger.info("🔗 Webhook URL: %s", settings.WEBHOOK_URL)
+    logger.debug("🔗 Webhook URL: %s", settings.WEBHOOK_URL)
 
     app.run_webhook(
         listen=settings.WEBHOOK_LISTEN,
@@ -59,7 +61,7 @@ def run_webhook() -> None:
 
 def start_polling(app: Application) -> None:
     """Start the bot using Application.run_polling."""
-    logger.info("🚀 Launching polling mode")
+    logger.debug("🚀 Launching polling mode")
     app.run_polling()
 
 
@@ -76,8 +78,8 @@ def run_telegram_bot(mode: str = settings.RUN_MODE) -> None:
             run_polling()
         else:
             run_webhook()
-    except (OSError, RuntimeError) as e:
-        logger.exception("🚨 Bot failed to start: %s", e)
+    except (OSError, RuntimeError):
+        logger.exception("🚨 Bot failed to start")
         import time
 
         logger.info("⏳ Waiting 5 seconds before exit to avoid restart loop...")
