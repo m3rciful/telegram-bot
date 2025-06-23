@@ -7,7 +7,7 @@ entity-type specific escaping for safer formatting in messages.
 
 import re
 
-from bot.utils.logger import get_logger
+from bot.utils.logger import logger
 
 TELEGRAM_MD_V1 = 1
 TELEGRAM_MD_V2 = 2
@@ -31,8 +31,6 @@ def escape_markdown(text: str, version: int = 2, entity_type: str | None = None)
             Options: "pre", "code", "text_link".
 
     """
-    logger = get_logger()
-
     version = int(version)
 
     logger.debug(

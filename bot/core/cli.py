@@ -5,7 +5,7 @@ from pydantic import ValidationError
 
 from bot.config import settings
 from bot.core.runner import run_telegram_bot
-from bot.utils.logger import get_logger, setup_logging
+from bot.utils.logger import logger, setup_logging
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -23,11 +23,10 @@ def create_parser() -> argparse.ArgumentParser:
 def cli(argv: list[str] | None = None) -> None:
     """Entry point executed by ``main.py`` and tests."""
     setup_logging()
-    logger = get_logger()
     parser = create_parser()
     args = parser.parse_args(argv)
     try:
-        _ = settings  # triggers validation by Pydantic BaseSettings
+        settings.model_validate(settings.model_dump())
     except (ValueError, ValidationError):
         logger.exception("Configuration validation error")
         sys.exit(1)

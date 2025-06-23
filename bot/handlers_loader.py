@@ -14,7 +14,7 @@ from telegram.ext import Application, CallbackQueryHandler, CommandHandler
 
 from bot import handlers
 from bot.utils.commands import COMMAND_REGISTRY
-from bot.utils.logger import get_logger
+from bot.utils.logger import logger
 
 
 def register_handlers(app: Application) -> None:
@@ -22,8 +22,7 @@ def register_handlers(app: Application) -> None:
     for _, module_name, _ in pkgutil.iter_modules(handlers.__path__):
         try:
             module = importlib.import_module(f"{handlers.__name__}.{module_name}")
-        except Exception:
-            logger = get_logger()
+        except ImportError:
             logger.exception(
                 "Failed to import handler module %s",
                 module_name,

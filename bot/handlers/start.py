@@ -8,7 +8,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from bot.utils.commands import command
-from bot.utils.logger import get_logger
+from bot.utils.logger import logger
 from bot.utils.markdown import mdv2_format
 
 
@@ -17,7 +17,6 @@ from bot.utils.markdown import mdv2_format
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send greeting message to user on /start command."""
     # Log the received command for debugging
-    logger = get_logger()
     logger.debug("📥 Received command: %s", update.message.text)
     _ = context
     # Get user ID and greet the user with instructions

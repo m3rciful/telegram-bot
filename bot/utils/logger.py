@@ -63,3 +63,7 @@ def setup_logging() -> None:
         getattr(logging, settings.LOG_LEVEL, logging.DEBUG),
     )
 
+
+
+# Global logger instance
+logger = get_logger()
